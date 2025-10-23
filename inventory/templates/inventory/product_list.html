@@ -1,0 +1,46 @@
+{% extends 'inventory/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Products</h2>
+        <a href="{% url 'product_create' %}" class="btn btn-primary">Add Product</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Selling Price</th>
+                    <th>Material Cost</th>
+                    <th>Profit</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-thumbnail" style="max-width: 50px;">
+                        {% endif %}
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description|truncatechars:50 }}</td>
+                    <td>${{ product.selling_price }}</td>
+                    <td>${{ product.material_cost }}</td>
+                    <td>${{ product.profit }}</td>
+                    <td>
+                        <a href="{% url 'product_materials' product.pk %}" class="btn btn-sm btn-outline-info">Materials</a>
+                        <a href="{% url 'product_edit' product.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <a href="{% url 'product_delete' product.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
